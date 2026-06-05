@@ -1,0 +1,77 @@
+{
+  "telegram": {
+    "botToken": "ENV_VAR: TELEGRAM_BOT_TOKEN",
+    "targetChatId": "ENV_VAR: TELEGRAM_CHAT_ID"
+  },
+  "schedule": [
+    "09:00",
+    "14:00",
+    "20:00"
+  ],
+  "sources": [
+    {
+      "username": "durov",
+      "enabled": true
+    },
+    {
+      "username": "telegram",
+      "enabled": true
+    },
+    {
+      "username": "techcrunch",
+      "enabled": false
+    },
+    {
+      "username": "robi_makes_stuff",
+      "enabled": true
+    },
+    {
+      "username": "GrindToGold",
+      "enabled": true
+    },
+    {
+      "username": "thelaravelguy",
+      "enabled": true
+    }
+  ],
+  "tags": [
+    {
+      "name": "AI",
+      "keywords": [
+        "ai",
+        "openai",
+        "gpt",
+        "llm",
+        "claude",
+        "gemini",
+        "artificial intelligence"
+      ]
+    },
+    {
+      "name": "Crypto",
+      "keywords": [
+        "bitcoin",
+        "btc",
+        "crypto",
+        "ethereum",
+        "solana",
+        "blockchain",
+        "ton"
+      ]
+    },
+    {
+      "name": "Tech",
+      "keywords": [
+        "tech",
+        "apple",
+        "google",
+        "microsoft",
+        "smartphone",
+        "gadget",
+        "software",
+        "development"
+      ]
+    }
+  ],
+  "defaultTag": "Other"
+}
