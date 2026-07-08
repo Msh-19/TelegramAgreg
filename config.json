@@ -73,5 +73,14 @@
       ]
     }
   ],
-  "defaultTag": "Other"
+  "defaultTag": "Other",
+  "blockedKeywords": [
+    "bible",
+    "gospel",
+    "church",
+    "christian",
+    "jesus",
+    "hallelujah",
+    "sunday service"
+  ]
 }

@@ -29,54 +29,44 @@ export function truncateText(text, maxLength = 200) {
 
 /**
  * Categorizes and aggregates raw posts based on priority-based keyword matching.
- * Implements single-assignment deduplication: once a post is assigned a tag,
- * it is skipped for subsequent tags.
- * 
- * @param {Array<{id: number, text: string, date: Date, url: string, channel: string}>} allPosts - All scraped posts.
- * @param {Array<{name: string, keywords: string[]}>} tagsConfig - The list of tags and their keywords from config.json.
- * @param {string} defaultTagName - Name of the fallback tag (e.g. "Other").
- * @returns {Record<string, Array<any>>} - Posts grouped by tag name.
+ * Implements deduplication and filtering.
  */
-export function groupPostsByTag(allPosts, tagsConfig, defaultTagName = 'Other') {
+export function groupPostsByTag(allPosts, tagsConfig, defaultTagName = 'Other', blockedKeywords = []) {
   const groups = {};
+  const seenContent = new Set(); // Global deduplication set
 
-  // Initialize all defined groups + the default fallback group
-  for (const tag of tagsConfig) {
-    groups[tag.name] = [];
-  }
+  // Initialize groups
+  for (const tag of tagsConfig) groups[tag.name] = [];
   groups[defaultTagName] = [];
 
   for (const post of allPosts) {
-    let matched = false;
     const postTextLower = post.text.toLowerCase();
 
-    // Priority-based tag assignment
-    for (const tag of tagsConfig) {
-      const matchFound = tag.keywords.some(keyword => 
-        postTextLower.includes(keyword.toLowerCase())
-      );
+    // 1. Content Filtering (Faith-based)
+    const isBlocked = blockedKeywords.some(keyword => 
+      postTextLower.includes(keyword.toLowerCase())
+    );
+    if (isBlocked) continue;
 
-      if (matchFound) {
+    // 2. Global Deduplication
+    if (seenContent.has(post.text)) continue;
+    seenContent.add(post.text);
+
+    // 3. Priority Tag Assignment
+    let matched = false;
+    for (const tag of tagsConfig) {
+      if (tag.keywords.some(k => postTextLower.includes(k.toLowerCase()))) {
         groups[tag.name].push(post);
         matched = true;
-        break; // Stop checking other tags (Single Assignment Deduplication)
+        break; 
       }
     }
 
-    if (!matched) {
-      groups[defaultTagName].push(post);
-    }
+    if (!matched) groups[defaultTagName].push(post);
   }
 
-  // Filter out empty groups so we don't display headers with zero posts
-  const activeGroups = {};
-  for (const [tagName, posts] of Object.entries(groups)) {
-    if (posts.length > 0) {
-      activeGroups[tagName] = posts;
-    }
-  }
-
-  return activeGroups;
+  // Filter empty groups
+  return Object.fromEntries(Object.entries(groups).filter(([_, posts]) => posts.length > 0));
 }
 
 /**

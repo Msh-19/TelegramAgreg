@@ -104,7 +104,7 @@ export async function runAggregation(runTypeLabel, isTestMode = false, notifyIfE
   }
 
   allNewPosts.sort((a, b) => new Date(a.date) - new Date(b.date));
-  const grouped = groupPostsByTag(allNewPosts, config.tags, config.defaultTag);
+  const grouped = groupPostsByTag(allNewPosts, config.tags, config.defaultTag, config.blockedKeywords || []);
   const messages = compileDebriefMessages(grouped, runTypeLabel);
   const sendSuccess = await sendDebrief(messages, telegramConfig, isTestMode);
 
