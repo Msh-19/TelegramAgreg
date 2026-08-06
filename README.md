@@ -1,12 +1,12 @@
 # TeleDebrief
 
-A headless, configuration-driven Telegram channel news aggregator. Scrapes public Telegram channels, categorizes posts by keyword-based tags, and delivers beautifully formatted HTML debrief summaries to your Telegram channel 3 times per day.
+A headless, configuration-driven Telegram channel news aggregator. Scrapes public Telegram channels, categorizes posts by keyword-based tags, and delivers beautifully formatted HTML debrief summaries to your Telegram channel 2 times per day.
 
 ## Features
 
 - **No Telegram API credentials required** — scrapes public web previews (`t.me/s/{channel}`). No phone number, API ID, or session login needed.
 - **Custom tagging** — define keyword-to-tag rules in `config.json`. Posts get auto-categorized.
-- **3x daily debriefs** — configurable schedule sends tagged summaries to your Telegram bot/channel.
+- **2x daily debriefs** — configurable schedule sends tagged summaries to your Telegram bot/channel.
 - **HTML formatted messages** — immune to Telegram's markdown parsing quirks with special characters.
 - **Silent first-run initialization** — bootstraps baseline post IDs to avoid flooding your channel with history.
 - **Exponential backoff retry** — resilient scraper handles transient network errors.
@@ -38,9 +38,8 @@ Edit `config.json`:
     "targetChatId": "@MyNewsChannel"
   },
   "schedule": [
-    "09:00",
-    "14:00",
-    "20:00"
+    "12:00",
+    "22:00"
   ],
   "sources": [
     { "username": "durov", "enabled": true },

@@ -4,9 +4,8 @@
     "targetChatId": "ENV_VAR: TELEGRAM_CHAT_ID"
   },
   "schedule": [
-    "09:00",
-    "14:00",
-    "20:00"
+    "12:00",
+    "22:00"
   ],
   "sources": [
     {
